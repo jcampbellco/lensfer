@@ -3,6 +3,7 @@ version: "3.9"
 services:
 
   postgres:
+    container_name: lensfer-db
     image: postgres:14.2
     environment:
       POSTGRES_DB: lensfer_development
@@ -21,8 +22,10 @@ services:
 #      - lensfer-redis:/var/lib/redis/data
 
   api:
+    container_name: lensfer-api
     build:
       context: .
+      dockerfile: api.Dockerfile
     volumes:
       - ./api:/opt/app
     links:
@@ -32,6 +35,18 @@ services:
       - '8010:8010'
     env_file:
       - ./api/.env
+
+  client:
+    container_name: lensfer-client
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    volumes:
+      - ./client:/app
+    ports:
+      - '3000:3000'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
 #  sidekiq:
 #    build:
