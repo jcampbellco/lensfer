@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: lensfer_development
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports: 
+      - '5432:5432'
+    volumes:
+      - lensfer-postgres:/var/lib/postgresql/data
+
+#  redis:
+#    image: redis:7.0
+#    ports:
+#      - '6379:6379'
+#    volumes:
+#      - lensfer-redis:/var/lib/redis/data
+
+  api:
+    build:
+      context: .
+    volumes:
+      - ./api:/opt/app
+    links:
+      - postgres
+#      - redis
+    ports:
+      - '8010:8010'
+    env_file:
+      - ./api/.env
+
+#  sidekiq:
+#    build:
+#      context: .
+#    command: bundle exec sidekiq
+#    links:
+#      - postgres
+#      - redis
+#    env_file:
+#      - .env
+
+volumes:
+  lensfer-postgres:
+  lensfer-redis:
