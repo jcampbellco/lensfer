@@ -31,9 +31,9 @@ class AuthenticateController < ApplicationController
     email = person.email_addresses.find { |email| email.metadata.primary == true }.value
     icon_path = person.photos.find { |photo| photo.metadata.primary == true }.url
 
-    user = User.find_by(email: email)
-    unless user.present?
-      user = User.create(
+    @user = User.find_by(email: email)
+    unless @user.present?
+      @user = User.create(
         email: email,
         name: name,
         icon_path: icon_path,
@@ -41,13 +41,10 @@ class AuthenticateController < ApplicationController
       )
     end
 
-    unless user.active?
+    unless @user.active?
       render json: { message: "Your account is not activated." }, status: :unauthorized and return
     end
 
-    render json: {
-      user: user,
-      token: JsonWebToken.encode({ user_id: user.id })
-    }
+    @auth = JsonWebToken.encode({ user_id: @user.id })
   end
 end
