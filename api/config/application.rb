@@ -14,6 +14,8 @@ module Api
     config.log_tags  = [:subdomain, :uuid]
     config.logger    = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
+    config.api_only = true
+
     config.cache_store = :redis_store, ENV['CACHE_URL'],
       { namespace: 'lensfer::cache' }
 
