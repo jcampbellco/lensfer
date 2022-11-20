@@ -3,7 +3,7 @@ import {useDropzone} from "react-dropzone";
 import {IconFilePlus, IconFileUpload} from "@tabler/icons";
 
 function HomePage() {
-    const onDrop = useCallback(acceptedFiles => {
+    const onDrop = useCallback((acceptedFiles: File[]) => {
         console.log('acceptedFiles', acceptedFiles);
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -18,7 +18,7 @@ function HomePage() {
                         <div className="card" style={{ minHeight: '33vh' }}>
                             <div className="card-body d-flex flex-column">
                                 <div className="dz-default dz-message d-flex flex-column flex-grow-1 justify-content-center">
-                                    <form className="dropzone dz-clickable" id="dropzone-multiple" action="./" autoComplete="off" noValidate="">
+                                    <form className="dropzone dz-clickable" id="dropzone-multiple" action="./" autoComplete="off">
                                         { icon }
                                         <input {...getInputProps()} />
                                     </form>
