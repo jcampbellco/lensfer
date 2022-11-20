@@ -12,4 +12,4 @@ RUN gem install rails bundler
 RUN bundle install
 
 # Start server
-CMD bundle exec unicorn -c config/unicorn.rb
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
