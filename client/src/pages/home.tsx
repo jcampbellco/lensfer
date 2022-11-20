@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import {useDropzone} from "react-dropzone";
 import {IconFilePlus, IconFileUpload} from "@tabler/icons";
 
+
 function HomePage() {
     const onDrop = useCallback((acceptedFiles: File[]) => {
         console.log('acceptedFiles', acceptedFiles);
