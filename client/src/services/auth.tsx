@@ -3,15 +3,18 @@ import {AxiosResponse} from "axios";
 import {api} from "./api";
 import {userSlice, UserState} from "../slices/userSlice";
 import {authSlice, AuthState} from "../slices/authSlice";
+import store from "../store";
 
 class Auth {
     public create(token: CodeResponse) {
         return api.post<any>('/authenticate', token)
             .then(({ data: { auth, user }}: AxiosResponse<{ auth: AuthState, user: UserState }>) => {
+                console.log("token response");
                 this.writeAuthToLocalStorage(auth);
                 this.writeUserToLocalStorage(user);
-                userSlice.actions.setUser(user);
-                authSlice.actions.setAuth(auth);
+                console.log(auth, user);
+                store.dispatch(userSlice.actions.setUser(user));
+                store.dispatch(authSlice.actions.setAuth(auth));
                 return {user, auth};
             });
     }

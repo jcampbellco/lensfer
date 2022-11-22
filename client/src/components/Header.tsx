@@ -6,6 +6,10 @@ import { auth } from "../services";
 function Header() {
     const user = useAppSelector((state) => state.user);
 
+    if (!user) {
+        return (<></>)
+    }
+
     const avatar = !!user.iconPath ?
         (<img src={user.iconPath} height={48} width={48} className={"avatar-lg"} alt={"User Avatar"} />) :
         (<IconUser size={48} className={"avatar-lg"} />);
