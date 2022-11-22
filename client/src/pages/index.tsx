@@ -1,22 +1,17 @@
 import React from 'react';
-import {CodeResponse, useGoogleLogin} from "@react-oauth/google";
-import {IconBrandGoogle, IconCapture} from "@tabler/icons";
-import AuthenticateService from "../services/authenticate_service";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
+import { IconBrandGoogle, IconCapture } from "@tabler/icons";
+import { auth } from "../services";
+import { useNavigate } from "react-router-dom";
 
 function IndexPage() {
-    const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const startLogin = useGoogleLogin({
         flow: 'auth-code',
         ux_mode: 'popup',
         onSuccess: (response: CodeResponse) => {
-            AuthenticateService.create(response).then(({ user, auth }) => {
-                dispatch({ type: 'auth/setAuth', payload: auth });
-                dispatch({ type: 'user/setUser', payload: user });
+            auth.create(response).then(_ => {
                 navigate('/home');
             });
         }

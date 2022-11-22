@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
-interface UserState {
+export interface UserState {
     id: string;
     name: string;
     email: string;
@@ -10,15 +10,13 @@ interface UserState {
     updatedAt: string;
 }
 
-const initialState = {
-} as UserState
+const initialState = JSON.parse(localStorage.getItem('user')!) as UserState;
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         setUser: (state: UserState, action: PayloadAction<any>) => {
-            console.log('setUser', action.payload);
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.email = action.payload.email;

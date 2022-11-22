@@ -1,50 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IndexPage from "./pages";
 import HomePage from "./pages/home";
 import { Provider } from 'react-redux'
 import store from './store'
-
-const router = createBrowserRouter([
-    {
-        children: [
-            {
-                element: <App hideHeader={true} />,
-                children: [
-                    {
-                        path: '/',
-                        index: true,
-                        element: <IndexPage/>
-                    },
-                ]
-            },
-            {
-                element: <App/>,
-                children: [
-                    {
-                        path: '/home',
-                        element: <HomePage />
-                    }
-                ]
-            }
-        ]
-    }
-])
+import Layout from "./pages/layout";
+import RequireAuth from "./components/RequireAuth";
+import GoogleOauth from "./components/GoogleOauth";
 
 const root = ReactDOM.createRoot(document.getElementById('root') as Element);
 root.render(
   <React.StrictMode>
       <Provider store={store}>
-          <RouterProvider router={router} />
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={ <GoogleOauth><IndexPage /></GoogleOauth> } />
+                  <Route element={<Layout />}>
+                      <Route path="/home" element={ <RequireAuth><HomePage /></RequireAuth> } />
+                  </Route>
+              </Routes>
+          </BrowserRouter>
       </Provider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

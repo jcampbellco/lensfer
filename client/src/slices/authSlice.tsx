@@ -1,12 +1,11 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface AuthState {
+export interface AuthState {
     token: string;
     exp: number;
 }
 
-const initialState = {
-} as AuthState
+const initialState = JSON.parse(localStorage.getItem('auth')!) as AuthState;
 
 export const authSlice = createSlice({
     name: 'auth',
