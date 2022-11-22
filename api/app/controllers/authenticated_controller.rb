@@ -3,9 +3,13 @@ class AuthenticatedController < ApplicationController
 
   protected
 
+  def initialize
+    super
+    @errors = ActiveModel::Errors.new(self)
+  end
+
   def current_user
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
-    @user || errors.add(:token, 'Invalid token') && nil
   end
 
   def require_authorization

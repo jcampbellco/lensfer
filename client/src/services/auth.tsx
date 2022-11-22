@@ -34,7 +34,6 @@ class Auth {
     }
 
     readAuthFromLocalStorage(): AuthState|null {
-        console.log('readAuth');
         const auth = localStorage.getItem('auth');
         return auth ? JSON.parse(auth) : null;
     }

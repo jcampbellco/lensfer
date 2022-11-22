@@ -1,8 +1,9 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults} from "axios";
+import {auth} from "./auth";
 
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
-        const token = localStorage.getItem('auth.token');
+        const token = auth.readAuthFromLocalStorage()?.token;
 
         if (token != null && config.headers !== undefined) {
             config.headers.Authorization = `Bearer ${token}`;
