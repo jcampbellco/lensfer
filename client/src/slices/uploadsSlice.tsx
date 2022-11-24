@@ -21,10 +21,12 @@ export interface UploadState {
 export interface UploadsState {
     uploads: UploadState[];
     selectedUpload?: UploadState;
+    thumbnailSize: number;
 }
 
 const initialState = {
     uploads: [] as UploadState[],
+    thumbnailSize: 6,
 } as UploadsState;
 
 export const uploadsSlice = createSlice({
@@ -48,6 +50,9 @@ export const uploadsSlice = createSlice({
         },
         clearSelectedUpload: (state: UploadsState) => {
             delete state.selectedUpload;
+        },
+        setThumbnailSize: (state: UploadsState, action: PayloadAction<number>) => {
+            state.thumbnailSize = action.payload;
         }
     }
 });

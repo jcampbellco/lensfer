@@ -7,6 +7,7 @@ type PhotogridProps = { uploads: UploadState[]; }
 
 function Photogrid({ uploads }: PhotogridProps) {
     const selectedUpload = useAppSelector((state) => state.uploads.selectedUpload);
+    const thumbnailSize = useAppSelector((state) => state.uploads.thumbnailSize);
 
     let uploadClickHandler = (event: any, upload: UploadState) => {
         event.preventDefault();
@@ -29,9 +30,11 @@ function Photogrid({ uploads }: PhotogridProps) {
         modals.push((<UploadModal upload={selectedUpload} key={"upload-details"} />));
     }
 
+    const classes = `row g-3 row-cols-${thumbnailSize}`;
+
     return (
         <div className="wrapper">
-            <div className="row row-cols-6 g-3">
+            <div className={classes}>
                 { uploadComponents }
             </div>
             { modals }

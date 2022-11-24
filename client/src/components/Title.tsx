@@ -1,16 +1,19 @@
-import {useState} from "react";
+import store from '../store'
+import { uploadsSlice } from "../slices";
+import { useAppSelector } from "../hooks";
+
 
 function Title({title}: { title: string }) {
-    const [size, setSize] = useState(4);
+    const thumbnailSize = useAppSelector(state => state.uploads.thumbnailSize);
 
     const updateSize = (size: number) => {
-        setSize(size);
+        store.dispatch(uploadsSlice.actions.setThumbnailSize(size));
     }
 
-    const sizes = [7, 14, 21, 28];
+    const sizes = [12, 6, 4, 3, 2];
     const sizeOptions = sizes.map(value => {
         return (<label className="btn" htmlFor={`icon-size-${value}`} key={value}>
-                <input className="btn-check" type="radio" id={`icon-size-${value}`} checked={size == value}
+                <input className="btn-check" type="radio" id={`icon-size-${value}`} checked={thumbnailSize == value}
                    onClick={() => updateSize(value)} onChange={() => updateSize(value)} value={value} />
                 {value}
             </label>);
