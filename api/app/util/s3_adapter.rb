@@ -1,6 +1,8 @@
 class S3Adapter
   require 'aws-sdk-s3'
 
+  MAX_EXPIRES_IN = 604800
+
   def initialize(s3_client)
     @client = s3_client
   end
@@ -23,17 +25,21 @@ class S3Adapter
 
   def presigned_request(key, method, expires_in: 900, time: Time.now, secure: false)
     raise ArgumentError('Invalid method') unless method.in?([:put_object, :get_object])
+    raise ArgumentError('expires_in cannot be greater than ') if expires_in > MAX_EXPIRES_IN
 
-    url,headers = Aws::S3::Presigner.new(client: @client).
-      presigned_url(
-        method,
-        bucket: ENV['AWS_BUCKET'],
-        key: key,
+    url,headers = Rails.cache.fetch(key + '/' + method.to_s, expires_in: expires_in.seconds) do
+      puts "Cache missing"
+      Aws::S3::Presigner.new(client: @client).
+        presigned_url(
+          method,
+          bucket: ENV['AWS_BUCKET'],
+          key: key,
 
-        time: time,
-        expires_in: expires_in,
-        secure: secure
-      )
+          time: time,
+          expires_in: expires_in,
+          secure: secure
+        )
+    end
 
     {
       url: url,
