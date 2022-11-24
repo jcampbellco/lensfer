@@ -6,9 +6,11 @@ type PhotogridProps = { uploads: UploadState[]; }
 function Photogrid({ uploads }: PhotogridProps) {
     let uploadComponents = uploads.map((upload, index) => {
         return (
-            <div className="datagrid-item" key={index}>
+            <div className="datagrid-item" key={index} style={{ maxWidth: '200px' }}>
                 <div className="datagrid-title">{ uploadsService.prettyId(upload) }</div>
-                <div className="datagrid-content">{ upload.key }</div>
+                <div className="datagrid-content">
+                    <img src={ upload.url.url } className="img-thumbnail" />
+                </div>
             </div>
         )
     })

@@ -1,1 +1,3 @@
-json.items @uploads, :id, :key, :created_at, :updated_at, :deleted_at
+json.items @uploads do |upload|
+  json.partial! 'uploads/upload', locals: { upload: upload }
+end

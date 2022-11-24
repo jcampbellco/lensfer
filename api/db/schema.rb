@@ -16,9 +16,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_20_154914) do
   enable_extension "plpgsql"
 
   create_table "uploads", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id"
+    t.uuid "user_id", null: false
     t.uuid "parent_id"
-    t.string "key"
+    t.string "status", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.string "mimetype", null: false
+    t.integer "size", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"

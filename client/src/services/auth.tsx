@@ -9,14 +9,20 @@ class Auth {
     public create(token: CodeResponse) {
         return api.post<any>('/authenticate', token)
             .then(({ data: { auth, user }}: AxiosResponse<{ auth: AuthState, user: UserState }>) => {
-                console.log("token response");
                 this.writeAuthToLocalStorage(auth);
                 this.writeUserToLocalStorage(user);
-                console.log(auth, user);
                 store.dispatch(userSlice.actions.setUser(user));
                 store.dispatch(authSlice.actions.setAuth(auth));
                 return {user, auth};
             });
+    }
+
+    public getUploadUrl(file: File) {
+        return api.post<any>('/uploads', {
+            filename: file.name,
+            size: file.size,
+            mimetype: file.type
+        });
     }
 
     writeUserToLocalStorage(user: UserState) {

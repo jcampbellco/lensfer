@@ -1,9 +1,13 @@
 class CreateUploads < ActiveRecord::Migration[7.0]
   def change
     create_table :uploads, id: :uuid do |t|
-      t.uuid :user_id
+      t.uuid :user_id, null: false
       t.uuid :parent_id
-      t.string :key
+      t.string :status, null: false
+      t.string :filename, null: false
+      t.string :key, null: false
+      t.string :mimetype, null: false
+      t.integer :size, null: false
       t.timestamps
       t.datetime :deleted_at
     end

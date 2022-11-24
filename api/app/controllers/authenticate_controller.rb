@@ -2,8 +2,6 @@ class AuthenticateController < ApplicationController
   def create
     code = params[:code]
 
-    puts "Requesting: #{code}"
-
     path = Rails.root.join('storage', 'client_secrets.json')
 
     require 'google/api_client/client_secrets'
@@ -46,5 +44,11 @@ class AuthenticateController < ApplicationController
     end
 
     @auth = JsonWebToken.encode({ user_id: @user.id })
+  end
+
+  def dev_token
+    @user = User.find_by(email: params[:email])
+    @auth = JsonWebToken.encode({ user_id: @user.id })
+    render 'authenticate/create'
   end
 end
