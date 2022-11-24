@@ -10,28 +10,44 @@ export interface PresignedUrlState {
 export interface UploadState {
     id: string;
     key: string;
+    filename: string;
+    mimetype: string;
+    size: number;
     createdAt: string;
     updatedAt: string;
     url: PresignedUrlState;
 }
 
-const initialState: UploadState[] = [];
+export interface UploadsState {
+    uploads: UploadState[];
+    selectedUpload?: UploadState;
+}
+
+const initialState = {
+    uploads: [] as UploadState[],
+} as UploadsState;
 
 export const uploadsSlice = createSlice({
     name: 'uploads',
     initialState,
     reducers: {
-        addUploads: (state: UploadState[], action: PayloadAction<UploadState|UploadState[]>) => {
+        addUploads: (state: UploadsState, action: PayloadAction<UploadState|UploadState[]>) => {
             const uploads = Array.isArray(action.payload) ? action.payload : [action.payload];
             uploads.forEach((upload: UploadState) => {
-                let index = state.findIndex(u => u.id === upload.id);
+                let index = state.uploads.findIndex(u => u.id === upload.id);
                 if (index === -1) {
-                    state = [upload, ...state];
+                    state.uploads = [upload, ...state.uploads];
                 } else {
-                    state[index] = upload;
+                    state.uploads[index] = upload;
                 }
             })
             return state;
+        },
+        setSelectedUpload: (state: UploadsState, action: PayloadAction<UploadState>) => {
+            state.selectedUpload = action.payload;
+        },
+        clearSelectedUpload: (state: UploadsState) => {
+            delete state.selectedUpload;
         }
     }
 });

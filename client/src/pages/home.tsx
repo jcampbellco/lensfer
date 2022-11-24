@@ -21,7 +21,7 @@ function HomePage() {
         })();
     }, []);
 
-    const uploads = useAppSelector((state) => state.uploads);
+    const uploads = useAppSelector((state) => state.uploads.uploads);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         let promises: Promise<any>[] = [];
@@ -41,7 +41,7 @@ function HomePage() {
             // All promises resolve, uploads are complete
         });
     }, []);
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, noClick: true})
 
 
     const body = uploads.length > 0 ?
