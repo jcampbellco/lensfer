@@ -4,5 +4,6 @@ end
 
 json.meta do
   json.current_page @uploads.current_page
+  json.per_page @uploads.per_page
   json.total_entries @uploads.total_entries
 end

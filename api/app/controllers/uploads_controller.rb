@@ -8,8 +8,8 @@ class UploadsController < AuthenticatedController
                  .uploads
                  .not_deleted
                  .confirmed
-                 .order(created_at: :asc)
-                 .paginate(paginate_params.to_h)
+                 .paginate(page: paginate_params[:page], per_page: paginate_params[:per_page])
+                 .order(created_at: :desc)
   end
 
   def confirm

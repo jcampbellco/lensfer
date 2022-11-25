@@ -35,7 +35,7 @@ function UploadModal({upload}: UploadModalProps) {
     const humanReadable = (bytes: number) => Math.round((bytes * 0.000001) * 100) / 100;
 
     return (
-        <Modal show={selectedUpload !== undefined} onHide={closeHandler} backdrop="static" size="xl" centered>
+        <Modal show={selectedUpload !== undefined} onHide={closeHandler} scrollable={true} backdrop="static" size="xl" centered>
             <Modal.Header closeButton>
                 <Modal.Title className="text-uppercase text-primary">{uploads.prettyId(upload)}</Modal.Title>
             </Modal.Header>

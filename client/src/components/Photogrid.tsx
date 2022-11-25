@@ -6,8 +6,7 @@ import store from "../store";
 type PhotogridProps = { uploads: UploadState[]; }
 
 function Photogrid({ uploads }: PhotogridProps) {
-    const selectedUpload = useAppSelector((state) => state.uploads.selectedUpload);
-    const thumbnailSize = useAppSelector((state) => state.uploads.thumbnailSize);
+    const { selectedUpload, thumbnailSize } = useAppSelector((state) => state.uploads);
 
     let uploadClickHandler = (event: any, upload: UploadState) => {
         event.preventDefault();
@@ -31,7 +30,7 @@ function Photogrid({ uploads }: PhotogridProps) {
     }
 
     const thumbnailSizeMap = [6, 4, 3, 2]; //
-    const classes = `row g-3 row-cols-${thumbnailSizeMap[thumbnailSize]}`;
+    const classes = `row g-3 mb-3 row-cols-${thumbnailSizeMap[thumbnailSize]}`;
 
     return (
         <div className="wrapper">

@@ -40,13 +40,16 @@ export interface UploadsState {
 const initialState = {
     uploads: [] as UploadState[],
     thumbnailSize: 1,
-    paginate: { page: 1, perPage: 48 } as PaginateState
+    paginate: { page: 1, perPage: 12 } as PaginateState
 } as UploadsState;
 
 export const uploadsSlice = createSlice({
     name: 'uploads',
     initialState,
     reducers: {
+        setUploads: (state: UploadsState, action: PayloadAction<UploadState[]>) => {
+            state.uploads = [...action.payload];
+        },
         addUploads: (state: UploadsState, action: PayloadAction<UploadState|UploadState[]>) => {
             const uploads = Array.isArray(action.payload) ? action.payload : [action.payload];
             uploads.forEach((upload: UploadState) => {
@@ -70,6 +73,9 @@ export const uploadsSlice = createSlice({
         },
         setPaginatePage: (state: UploadsState, action: PayloadAction<number>) => {
             state.paginate.page = action.payload;
+        },
+        setPaginateTotal: (state: UploadsState, action: PayloadAction<number>) => {
+            state.paginate.total = action.payload;
         },
         setPaginatePerPage: (state: UploadsState, action: PayloadAction<number>) => {
             state.paginate.perPage = action.payload;
