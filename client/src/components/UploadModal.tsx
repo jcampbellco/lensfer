@@ -32,6 +32,8 @@ function UploadModal({upload}: UploadModalProps) {
 
     const target = useRef(null);
 
+    const humanReadable = (bytes: number) => Math.round((bytes * 0.000001) * 100) / 100;
+
     return (
         <Modal show={selectedUpload !== undefined} onHide={closeHandler} backdrop="static" size="xl" centered>
             <Modal.Header closeButton>
@@ -75,6 +77,12 @@ function UploadModal({upload}: UploadModalProps) {
                                 <code className="mb-3 d-block">{upload.mimetype}</code>
                                 <h4>Uploaded</h4>
                                 <code className="mb-3 d-block">{upload.createdAt}</code>
+                                <h4>Filesize</h4>
+                                <code className="mb-3 d-block">{humanReadable(upload.size)}mb</code>
+                                <h4>View Count</h4>
+                                <code className="mb-3 d-block">{upload.stats.views}</code>
+                                <h4>Bandwidth</h4>
+                                <code className="mb-3 d-block">{ humanReadable(upload.size * upload.stats.views) }mb</code>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>

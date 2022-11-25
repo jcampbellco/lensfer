@@ -1,7 +1,7 @@
 class UploadsController < AuthenticatedController
   before_action :set_upload, only: [:confirm]
   def index
-    @uploads = current_user.uploads
+    @uploads = current_user.uploads.order(created_at: :desc)
   end
 
   def confirm

@@ -7,6 +7,10 @@ export interface PresignedUrlState {
     headers: string[];
 }
 
+export interface UploadStatsState {
+    views: number;
+}
+
 export interface UploadState {
     id: string;
     key: string;
@@ -17,6 +21,7 @@ export interface UploadState {
     updatedAt: string;
     url: PresignedUrlState;
     publicFilename: string;
+    stats: UploadStatsState;
 }
 
 export interface UploadsState {

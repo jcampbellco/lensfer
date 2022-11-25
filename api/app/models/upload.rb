@@ -6,6 +6,8 @@ class Upload < ApplicationRecord
   scope :short_id, ->(short_id) { where(id: short_id) }
   scope :not_deleted, -> { where.not(deleted_at: nil) }
 
+  jsonb_accessor :stats, views: [:integer, default: 0]
+
   def public_filename
     "#{id.split('-').first}.#{filename.split('.').last}"
   end
