@@ -1,5 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults} from "axios";
 import {auth} from "./auth";
+import store from "../store";
+import {authSlice} from "../slices";
 
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     try {
@@ -100,7 +102,8 @@ class Api {
                 break;
             }
             case StatusCode.Unauthorized: {
-                // Handle Unauthorized
+                store.dispatch(authSlice.actions.logout());
+                window.location.href = 'http://localhost:3000/';
                 break;
             }
             case StatusCode.TooManyRequests: {

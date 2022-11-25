@@ -20,6 +20,9 @@ export const authSlice = createSlice({
         setUploadUrl: (state: AuthState, action: PayloadAction<{ uploadUrl: string, uploadExp: number }>) => {
             state.uploadExp = action.payload.uploadExp;
             state.uploadUrl = action.payload.uploadUrl;
+        },
+        logout: (state: AuthState) => {
+            state = {} as AuthState;
         }
     }
 });

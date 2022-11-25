@@ -1,7 +1,7 @@
 import '@tabler/core/dist/css/tabler.css';
 import { Outlet } from "react-router-dom";
 
-import React from "react";
+import React, {useEffect} from "react";
 
 import Header from "../components/Header";
 
@@ -10,6 +10,17 @@ type AppProps = {
 };
 
 function Layout({ hideHeader }: AppProps) {
+
+    // useEffect(() => {
+    //     const script = document.createElement('script');
+    //     script.src = "node_modules/@tabler/core/dist/js/tabler.js";
+    //     script.async = true;
+    //     document.body.appendChild(script);
+    //     return () => {
+    //         document.body.removeChild(script);
+    //     }
+    // }, []);
+
     return (
         <div className="App page">
             { !hideHeader ? <Header /> : '' }
