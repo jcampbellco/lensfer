@@ -11,6 +11,12 @@ export interface UploadStatsState {
     views: number;
 }
 
+export interface PaginateState {
+    page: number;
+    perPage: number;
+    total: number;
+}
+
 export interface UploadState {
     id: string;
     key: string;
@@ -28,11 +34,13 @@ export interface UploadsState {
     uploads: UploadState[];
     selectedUpload?: UploadState;
     thumbnailSize: number;
+    paginate: PaginateState;
 }
 
 const initialState = {
     uploads: [] as UploadState[],
-    thumbnailSize: 6,
+    thumbnailSize: 1,
+    paginate: { page: 1, perPage: 48 } as PaginateState
 } as UploadsState;
 
 export const uploadsSlice = createSlice({
@@ -59,6 +67,12 @@ export const uploadsSlice = createSlice({
         },
         setThumbnailSize: (state: UploadsState, action: PayloadAction<number>) => {
             state.thumbnailSize = action.payload;
+        },
+        setPaginatePage: (state: UploadsState, action: PayloadAction<number>) => {
+            state.paginate.page = action.payload;
+        },
+        setPaginatePerPage: (state: UploadsState, action: PayloadAction<number>) => {
+            state.paginate.perPage = action.payload;
         }
     }
 });

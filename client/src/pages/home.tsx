@@ -9,9 +9,12 @@ import UploadCard from "../components/UploadCard";
 import Title from "../components/Title";
 
 function HomePage() {
+
+    const { page, perPage } = useAppSelector((state) => state.uploads.paginate);
+
     // useEffect is firing twice on loading and causing the uploads to be doubled
     const fetchUploads = async () => {
-        return await uploadsService.loadUploads()
+        return await uploadsService.loadUploads(page, perPage);
     }
 
     useEffect(() => {

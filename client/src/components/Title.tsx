@@ -1,4 +1,5 @@
 import store from '../store'
+import Form from 'react-bootstrap/Form'
 import { uploadsSlice } from "../slices";
 import { useAppSelector } from "../hooks";
 
@@ -9,15 +10,6 @@ function Title({title}: { title: string }) {
     const updateSize = (size: number) => {
         store.dispatch(uploadsSlice.actions.setThumbnailSize(size));
     }
-
-    const sizes = [6, 4, 3, 2];
-    const sizeOptions = sizes.map(value => {
-        return (<label className="btn" htmlFor={`icon-size-${value}`} key={value}>
-                <input className="btn-check" type="radio" id={`icon-size-${value}`} checked={thumbnailSize == value}
-                   onClick={() => updateSize(value)} onChange={() => updateSize(value)} value={value} />
-                {value}
-            </label>);
-    });
 
     return (
         <div className="page-header d-print-none">
@@ -30,7 +22,7 @@ function Title({title}: { title: string }) {
                     </div>
                     <div className="col" style={{maxWidth: '25%'}}>
                         <div className="btn-group w-100" role="group">
-                            { sizeOptions }
+                            <Form.Range step={1} min={0} max={3} value={thumbnailSize} onChange={(e) => updateSize(parseInt(e.target.value))} />
                         </div>
                     </div>
                 </div>

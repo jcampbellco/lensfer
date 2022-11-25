@@ -30,7 +30,8 @@ function Photogrid({ uploads }: PhotogridProps) {
         modals.push((<UploadModal upload={selectedUpload} key={"upload-details"} />));
     }
 
-    const classes = `row g-3 row-cols-${thumbnailSize}`;
+    const thumbnailSizeMap = [6, 4, 3, 2]; //
+    const classes = `row g-3 row-cols-${thumbnailSizeMap[thumbnailSize]}`;
 
     return (
         <div className="wrapper">

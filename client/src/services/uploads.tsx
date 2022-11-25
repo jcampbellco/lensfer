@@ -2,8 +2,8 @@ import { api } from './api'
 import { UploadState } from "../slices/uploadsSlice";
 
 class Uploads {
-    loadUploads() {
-        return api.get('/uploads');
+    loadUploads(page: number, perPage: number) {
+        return api.get(`/uploads?page=${page}&perPage=${perPage}`);
     }
 
     prettyId(upload: UploadState) {

@@ -1,12 +1,15 @@
 class UploadsController < AuthenticatedController
   before_action :set_upload, only: [:confirm]
 
+  include PaginateParams
+
   def index
     @uploads = current_user
                  .uploads
                  .not_deleted
                  .confirmed
                  .order(created_at: :asc)
+                 .paginate(paginate_params.to_h)
   end
 
   def confirm
