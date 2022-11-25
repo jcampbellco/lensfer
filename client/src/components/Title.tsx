@@ -10,7 +10,7 @@ function Title({title}: { title: string }) {
         store.dispatch(uploadsSlice.actions.setThumbnailSize(size));
     }
 
-    const sizes = [12, 6, 4, 3, 2];
+    const sizes = [6, 4, 3, 2];
     const sizeOptions = sizes.map(value => {
         return (<label className="btn" htmlFor={`icon-size-${value}`} key={value}>
                 <input className="btn-check" type="radio" id={`icon-size-${value}`} checked={thumbnailSize == value}
