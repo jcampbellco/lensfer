@@ -12,9 +12,11 @@ class UploadsController < AuthenticatedController
 
   def create
     upload_params = params.permit(:size, :mimetype, :filename)
+    ext = upload_params[:filename].split('.').last
+    upload_params[:id] = Random.uuid
     upload_params[:size] = upload_params[:size].to_i
     upload_params[:user_id] = current_user.id
-    upload_params[:key] = "#{current_user.id}/#{Time.now.to_i}_#{upload_params[:filename]}"
+    upload_params[:key] = "#{current_user.id}/#{upload_params[:id]}.#{ext}"
     upload_params[:status] = 'pending'
 
     @upload = Upload.create(upload_params)

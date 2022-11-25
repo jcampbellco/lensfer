@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect} from 'react';
-import {useDropzone} from "react-dropzone";
-import {IconFilePlus, IconFileUpload} from "@tabler/icons";
-import {auth, uploads as uploadsService} from "../services";
+import React, { useCallback, useEffect } from 'react';
+import { useDropzone } from "react-dropzone";
+import { auth, uploads as uploadsService } from "../services";
 import store from "../store";
-import {authSlice, uploadsSlice} from "../slices";
-import {useAppSelector} from "../hooks";
+import { uploadsSlice } from "../slices";
+import { useAppSelector } from "../hooks";
 import Photogrid from "../components/Photogrid";
 import UploadCard from "../components/UploadCard";
 import Title from "../components/Title";
@@ -14,6 +13,7 @@ function HomePage() {
     const fetchUploads = async () => {
         return await uploadsService.loadUploads()
     }
+
     useEffect(() => {
         (async () => {
             let { data: { items } } = await fetchUploads();
