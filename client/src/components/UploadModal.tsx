@@ -21,7 +21,7 @@ function UploadModal({upload}: UploadModalProps) {
         store.dispatch(uploadsSlice.actions.clearSelectedUpload());
     }
 
-    const imgUrl = `http://localhost:3000/${upload.publicFilename}`;
+    const imgUrl = `http://localhost:8010/${upload.publicFilename}`;
 
     const copyHandler = () => {
         console.log('copyHandler', imgUrl);

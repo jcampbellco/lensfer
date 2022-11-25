@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get '/:id.:ext', to: 'view#show', constraints: { id: /[A-Za-z0-9]{8}/, ext: /[A-Za-z0-9]{3}/ }
+
   resources :authenticate, only: [ :create ]
   post :dev_token, to: 'authenticate#dev_token'
 

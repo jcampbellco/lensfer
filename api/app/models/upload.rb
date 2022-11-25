@@ -3,6 +3,9 @@ class Upload < ApplicationRecord
 
   has_one :user
 
+  scope :short_id, ->(short_id) { where(id: short_id) }
+  scope :not_deleted, -> { where.not(deleted_at: nil) }
+
   def public_filename
     "#{id.split('-').first}.#{filename.split('.').last}"
   end
