@@ -1,62 +1,54 @@
 import {uploadsSlice, UploadState} from "../slices/uploadsSlice";
 import store from "../store";
 import {uploads} from "../services";
+import Accordion from "react-bootstrap/Accordion";
+import Modal from "react-bootstrap/Modal";
+import {useAppSelector} from "../hooks";
 
 type UploadModalProps = {
     upload: UploadState
 };
 
-function UploadModal({ upload }: UploadModalProps) {
+function UploadModal({upload}: UploadModalProps) {
+    const selectedUpload = useAppSelector((state) => state.uploads.selectedUpload);
+
     const closeHandler = () => {
         store.dispatch(uploadsSlice.actions.clearSelectedUpload());
     }
 
     return (
-        <div className="modal modal-blur fade show d-block" id="modal-simple" tabIndex={-1} role="dialog" aria-modal="true">
-            <div className="modal-dialog modal-dialog-centered" role="document" style={{ width: '85%', maxWidth: '1800px' }}>
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h6 className="modal-title text-uppercase text-primary">{ uploads.prettyId(upload) }</h6>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close" onClick={() => closeHandler()}></button>
-                    </div>
-                    <div className="modal-body row row-deck row-cards">
-                        <div className="col-lg-9 col-sm-6 col-xs-12">
-                            <img src={ upload.url.url } alt={ upload.filename } className="img img-responsive m-auto" style={{ maxHeight: '70vh', paddingTop: 'unset' }} />
-                        </div>
-                        <div className="col-lg-3 col-sm-6 col-xs-12 d-flex flex-column">
-                            <div className="accordion">
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header text-primary">
-                                        <button className="accordion-button">Details</button>
-                                    </h2>
-                                    <div className={`accordion-collapse`}>
-                                        <div className="accordion-body">
-                                            <h4>Original Filename</h4>
-                                            <code className="mb-3 d-block">{ upload.filename }</code>
-                                            <h4>Mimetype</h4>
-                                            <code className="mb-3 d-block">{ upload.mimetype }</code>
-                                            <h4>Uploaded</h4>
-                                            <code className="mb-3 d-block">{ upload.createdAt }</code>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header text-primary">
-                                        <button className="accordion-button">Tags</button>
-                                    </h2>
-                                    <div className={`accordion-collapse`}>
-                                        <div className="accordion-body">
-                                            <h4>Tags?</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <Modal show={selectedUpload !== undefined} onHide={closeHandler} backdrop="static" size="xl" centered>
+            <Modal.Header closeButton>
+                <Modal.Title className="text-uppercase text-primary">{uploads.prettyId(upload)}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="row row-deck row-cards">
+                <div className="col-lg-8 col-sm-6 col-xs-12">
+                    <img src={upload.url.url} alt={upload.filename} className="img img-responsive m-auto"
+                         style={{maxHeight: '70vh', paddingTop: 'unset'}}/>
                 </div>
-            </div>
-        </div>
+                <div className="col-lg-4 col-sm-6 col-xs-12 d-flex flex-column">
+                    <Accordion defaultActiveKey="0">
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header className="text-primary">Details</Accordion.Header>
+                            <Accordion.Body>
+                                <h4>Original Filename</h4>
+                                <code className="mb-3 d-block">{upload.filename}</code>
+                                <h4>Mimetype</h4>
+                                <code className="mb-3 d-block">{upload.mimetype}</code>
+                                <h4>Uploaded</h4>
+                                <code className="mb-3 d-block">{upload.createdAt}</code>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        <Accordion.Item eventKey="1">
+                            <Accordion.Header className="text-primary">Tags</Accordion.Header>
+                            <Accordion.Body>
+                                <h4>Tags</h4>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                </div>
+            </Modal.Body>
+        </Modal>
     )
 }
 
