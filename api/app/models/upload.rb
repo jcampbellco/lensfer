@@ -4,8 +4,7 @@ class Upload < ApplicationRecord
   has_one :user
 
   def public_filename
-    # first-uuid-octet.ext
-    `#{id.split('-').first}.#{filename.split('.').last}`
+    "#{id.split('-').first}.#{filename.split('.').last}"
   end
 
   def url

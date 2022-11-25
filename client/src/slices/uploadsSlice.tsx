@@ -16,6 +16,7 @@ export interface UploadState {
     createdAt: string;
     updatedAt: string;
     url: PresignedUrlState;
+    publicFilename: string;
 }
 
 export interface UploadsState {
