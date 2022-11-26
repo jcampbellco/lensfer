@@ -64,6 +64,7 @@ function HomePage() {
 
         Promise.all(promises).then(_ => {
             // All promises resolve, uploads are complete
+            loadCurrentPage(page, perPage);
         });
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, noClick: true})
