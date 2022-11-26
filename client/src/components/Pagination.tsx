@@ -42,7 +42,7 @@ function Pagination({ currentPage, totalItems, perPage, onChange, numOfItems }: 
     }
 
     if (end < totalPages) {
-        paginationItems.push(<BPagination.Ellipsis key={`paginate-lower-ellipsis`} disabled />);
+        paginationItems.push(<BPagination.Ellipsis key={`paginate-upper-ellipsis`} disabled />);
     }
 
     paginationItems.push(<BPagination.Next key={'paginate-next'} disabled={currentPage >= totalPages} onClick={() => onChange(currentPage + 1, currentPage)} />)
