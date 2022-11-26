@@ -78,6 +78,7 @@ function HomePage() {
                 <div className="btn-group w-100 d-flex align-items-center" role="group">
                     <Form.Range step={1} min={0} max={3} value={thumbnailSize} onChange={(e) => updateSize(parseInt(e.target.value))} />
                     <Form.Select className="m form-control-rounded" style={{ marginLeft: '3rem', maxWidth: '4rem' }} onChange={(e) => updatePerPage(parseInt(e.target.value))}>
+                        <option value={6}>6</option>
                         <option value={12}>12</option>
                         <option value={24}>24</option>
                         <option value={36}>36</option>
@@ -90,7 +91,7 @@ function HomePage() {
                     { body }
                 </div>
                 <input {...getInputProps()} />
-                <Pagination currentPage={page} totalItems={total} perPage={perPage} onChange={changePageHandler} />
+                <Pagination currentPage={page} totalItems={total} perPage={perPage} onChange={changePageHandler} numOfItems={6} />
             </div>
         </>
     );
