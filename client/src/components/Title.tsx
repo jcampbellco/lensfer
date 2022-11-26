@@ -10,7 +10,6 @@ function Title({ children, title }: { children: any, title: string }) {
                     </div>
                     <div className="col" style={{maxWidth: '25%'}}>
                         { children }
-
                     </div>
                 </div>
             </div>

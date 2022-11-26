@@ -68,7 +68,6 @@ function HomePage() {
     }, []);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, noClick: true})
 
-
     const body = uploads.length > 0 ?
         <Photogrid uploads={uploads} /> : <UploadCard isDragActive={isDragActive} />
 
