@@ -32,15 +32,22 @@ export interface UploadState {
 
 export interface UploadsState {
     uploads: UploadState[];
-    selectedUpload?: UploadState;
+    selectedUpload?: UploadState|null;
     thumbnailSize: number;
     paginate: PaginateState;
+    modal: UploadsModals|null;
+}
+
+export enum UploadsModals {
+    Details,
+    Delete,
 }
 
 const initialState = {
     uploads: [] as UploadState[],
     thumbnailSize: 1,
-    paginate: { page: 1, perPage: 12 } as PaginateState
+    paginate: { page: 1, perPage: 12 } as PaginateState,
+    modal: null,
 } as UploadsState;
 
 export const uploadsSlice = createSlice({
@@ -62,6 +69,14 @@ export const uploadsSlice = createSlice({
             })
             return state;
         },
+        deleteUpload: (state: UploadsState, action: PayloadAction<UploadState>) => {
+            const index = state.uploads.findIndex((upload: UploadState) => {
+                return upload.id === action.payload.id;
+            });
+            if (index !== -1) {
+                delete state.uploads[index];
+            }
+        },
         setSelectedUpload: (state: UploadsState, action: PayloadAction<UploadState>) => {
             state.selectedUpload = action.payload;
         },
@@ -79,6 +94,9 @@ export const uploadsSlice = createSlice({
         },
         setPaginatePerPage: (state: UploadsState, action: PayloadAction<number>) => {
             state.paginate.perPage = action.payload;
+        },
+        setModal: (state: UploadsState, action: PayloadAction<UploadsModals|null>) => {
+            state.modal = action.payload;
         }
     }
 });

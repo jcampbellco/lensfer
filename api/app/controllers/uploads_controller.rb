@@ -1,5 +1,5 @@
 class UploadsController < AuthenticatedController
-  before_action :set_upload, only: [:confirm]
+  before_action :set_upload, only: [:confirm, :destroy]
 
   include PaginateParams
 
@@ -19,6 +19,14 @@ class UploadsController < AuthenticatedController
     render 'uploads/show'
   end
 
+  def destroy
+    render :json => {}, status: :unauthorized and return unless @upload.user.id == current_user.id
+
+    @upload.update({ status: 'deleted', deleted_at: Time.now })
+
+    render :json => { message: 'Deleted' }
+  end
+
   def create
     upload_params = params.permit(:size, :mimetype, :filename)
     ext = upload_params[:filename].split('.').last
@@ -32,7 +40,10 @@ class UploadsController < AuthenticatedController
     @context = S3Adapter.client.presigned_request(upload_params[:key], :put_object)
   end
 
+  private
+
   def set_upload
-    @upload = Upload.find(params[:upload_id])
+    puts params
+    @upload = Upload.find(params[:upload_id] || params[:id])
   end
 end

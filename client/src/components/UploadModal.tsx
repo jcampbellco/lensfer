@@ -1,12 +1,11 @@
-import {uploadsSlice, UploadState} from "../slices/uploadsSlice";
-import store from "../store";
-import {uploads} from "../services";
+import { UploadsModals, uploadsSlice, UploadState } from "../slices/uploadsSlice";
+import { uploads } from "../services";
 import Accordion from "react-bootstrap/Accordion";
 import Modal from "react-bootstrap/Modal";
-import {useAppSelector} from "../hooks";
-import {IconCopy, IconCheck} from "@tabler/icons";
-import {useRef, useState} from "react";
-import {Button, Overlay, Tooltip} from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { IconCopy, IconCheck, IconTrash } from "@tabler/icons";
+import { useRef, useState } from "react";
+import { Button, Overlay, Tooltip } from "react-bootstrap";
 
 type UploadModalProps = {
     upload: UploadState
@@ -15,16 +14,18 @@ type UploadModalProps = {
 function UploadModal({upload}: UploadModalProps) {
     const [icon, setIcon] = useState('copy');
 
-    const selectedUpload = useAppSelector((state) => state.uploads.selectedUpload);
-
+    const dispatch = useAppDispatch();
     const closeHandler = () => {
-        store.dispatch(uploadsSlice.actions.clearSelectedUpload());
+        dispatch(uploadsSlice.actions.setModal(null));
+    }
+
+    const deleteHandler = () => {
+        dispatch(uploadsSlice.actions.setModal(UploadsModals.Delete));
     }
 
     const imgUrl = `http://localhost:8010/${upload.publicFilename}`;
 
     const copyHandler = () => {
-        console.log('copyHandler', imgUrl);
         window.navigator.clipboard.writeText(imgUrl);
         setIcon('check');
         setTimeout(() => setIcon('copy'), 2500);
@@ -35,7 +36,7 @@ function UploadModal({upload}: UploadModalProps) {
     const humanReadable = (bytes: number) => Math.round((bytes * 0.000001) * 100) / 100;
 
     return (
-        <Modal show={selectedUpload !== undefined} onHide={closeHandler} scrollable={true} backdrop="static" size="xl" centered>
+        <Modal show={true} onHide={closeHandler} scrollable={true} backdrop="static" size="xl" centered>
             <Modal.Header closeButton>
                 <Modal.Title className="text-uppercase text-primary">{uploads.prettyId(upload)}</Modal.Title>
             </Modal.Header>
@@ -83,6 +84,10 @@ function UploadModal({upload}: UploadModalProps) {
                                 <code className="mb-3 d-block">{upload.stats.views}</code>
                                 <h4>Bandwidth</h4>
                                 <code className="mb-3 d-block">{ humanReadable(upload.size * upload.stats.views) }mb</code>
+
+                                <Button variant={"danger"} style={{ width: '100%' }} onClick={deleteHandler}>
+                                    <IconTrash  /> Delete Upload?
+                                </Button>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>

@@ -1,7 +1,7 @@
 class Upload < ApplicationRecord
   include SoftDeletable
 
-  has_one :user
+  belongs_to :user
 
   scope :short_id, ->(short_id) { where(id: short_id) }
   scope :confirmed, -> { where(status: 'confirmed' )}

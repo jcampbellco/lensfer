@@ -10,6 +10,7 @@ class Uploads {
         return upload.id.split('-')[0];
     }
 
+    // Sends a file to the provided URL, an s3 prepared request
     send(url: string, file: File): Promise<Response> {
         return fetch(url, {
             method: 'put',
@@ -23,6 +24,11 @@ class Uploads {
     confirm(upload: UploadState) {
         const url = `/uploads/${upload.id}/confirm`;
         return api.put(url, { status: 'confirmed' });
+    }
+
+    delete(upload: UploadState) {
+        const url = `/uploads/${upload.id}`;
+        return api.delete(url);
     }
 }
 

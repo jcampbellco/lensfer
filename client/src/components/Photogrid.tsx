@@ -1,16 +1,18 @@
-import {uploadsSlice, UploadState} from "../slices/uploadsSlice";
+import { UploadsModals, uploadsSlice, UploadState } from "../slices/uploadsSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import UploadModal from "./UploadModal";
-import {useAppSelector} from "../hooks";
-import store from "../store";
+import DeleteUploadModal from "./DeleteUploadModal";
 
 type PhotogridProps = { uploads: UploadState[]; }
 
 function Photogrid({ uploads }: PhotogridProps) {
-    const { selectedUpload, thumbnailSize } = useAppSelector((state) => state.uploads);
+    const { selectedUpload, thumbnailSize, modal } = useAppSelector((state) => state.uploads);
 
+    const dispatch = useAppDispatch();
     let uploadClickHandler = (event: any, upload: UploadState) => {
         event.preventDefault();
-        store.dispatch(uploadsSlice.actions.setSelectedUpload(upload));
+        dispatch(uploadsSlice.actions.setSelectedUpload(upload));
+        dispatch(uploadsSlice.actions.setModal(UploadsModals.Details));
     }
 
     let uploadComponents = uploads.map((upload) => {
@@ -25,8 +27,11 @@ function Photogrid({ uploads }: PhotogridProps) {
     });
 
     const modals = [];
-    if (selectedUpload) {
+    if (selectedUpload && modal === UploadsModals.Details) {
         modals.push((<UploadModal upload={selectedUpload} key={"upload-details"} />));
+    }
+    if (selectedUpload && modal === UploadsModals.Delete) {
+        modals.push((<DeleteUploadModal upload={selectedUpload} key={"upload-delete"} />));
     }
 
     const thumbnailSizeMap = [6, 4, 3, 2]; //

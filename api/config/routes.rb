@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :authenticate, only: [ :create ]
   post :dev_token, to: 'authenticate#dev_token'
 
-  resources :uploads, only: [ :index, :create ] do
+  resources :uploads, only: [ :index, :create, :destroy ] do
     put :confirm, to: 'uploads#confirm'
   end
 end

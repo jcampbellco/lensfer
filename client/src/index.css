@@ -12,6 +12,6 @@ code {
     monospace;
 }
 
-.modal-dialog, .modal-xl {
+.modal-xl {
   max-width: 85vw !important;
 }
